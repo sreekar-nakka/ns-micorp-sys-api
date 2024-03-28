@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="create-customer-flow" doc:id="d1e1b2c0-bc6c-4262-80f4-cd1cdc1c756f" >
+		<logger level="INFO" doc:name="Start" doc:id="36383c42-f9a0-4f89-a8cb-ec429f170b5e" message="Started create customer flow"/>
+		<logger level="INFO" doc:name="End" doc:id="79259933-d928-4953-8a47-d57dffbd468c" message="Ended create customer flow"/>
+	</flow>
+</mule>

@@ -1,0 +1,23 @@
+%dw 2.0
+
+type auto_e8c8fc19_f4d3_432c_8a90_2e4cfd7e00a1_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {| "x-correlation-id"?: String |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| orderId: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

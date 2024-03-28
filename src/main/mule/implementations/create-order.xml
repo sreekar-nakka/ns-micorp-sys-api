@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="001493bc-71e6-4542-a4fa-83466740c163" >
+		<salesforce:basic-connection username="sreekar.nakka@salesforce.com" password="Ganesha@1234" securityToken="bmqOADO7bcahIyCOF4CujksEy" />
+	</salesforce:sfdc-config>
+	<flow name="create-order-flow" doc:id="6ea2a3e7-fac6-4e68-8252-39c68b9522c3" >
+		<logger level="INFO" doc:name="Start" doc:id="d85440e4-a688-4984-9367-48e87b29007a" message="Started create order flow"/>
+		<ee:transform doc:name="Transform Message" doc:id="83a02e85-2d8f-4c24-90b2-4ff0654fcbb5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+[{
+	PurchaseOrderNumber__c: payload.poNumber,
+	SignatureRequiredFlag__c: payload.signatureRequiredFlag,
+	ShipInstructions__c: payload.shipInstructions,
+	GiftWrapFlag__c: payload.giftWrapFlag,
+	GiftWrapMessage__c: payload.giftWrapMessage,
+	CurrencyCode__c: payload.currencyCode,
+	SubTotal__c: payload.subTotal,
+	Email__c: payload.email
+}]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:create doc:name="Create" doc:id="b1b52573-1fab-46a2-9208-f79e5c8064bd" config-ref="Salesforce_Config" type="Order__c"/>
+		<logger level="INFO" doc:name="End" doc:id="fbb9043a-c1bf-4e98-b81a-48290b8f20d1" message="Ended create order flow"/>
+	</flow>
+</mule>

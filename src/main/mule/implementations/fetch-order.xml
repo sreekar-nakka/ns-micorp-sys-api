@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<flow name="fetch-order-flow" doc:id="e8c8fc19-f4d3-432c-8a90-2e4cfd7e00a1" >
+		<logger level="INFO" doc:name="Start" doc:id="021ece27-ccfc-465f-b83b-968e3b3e71ab" message="Started fetch order flow"/>
+		<ee:transform doc:name="Transform Message" doc:id="0f2f3adc-35af-4782-a4aa-c817b249e6cc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:query doc:name="Query" doc:id="b5f0d1b3-8dfd-4ec3-b1c4-530c0cb40c5f" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[SELECT PurchaseOrderNumber__c,SignatureRequiredFlag__c,ShipInstructions__c,GiftWrapFlag__c,GiftWrapMessage__c,CurrencyCode__c,SubTotal__c,Email__c 
+FROM Order__c
+WHERE PurchaseOrderNumber__c =':orderId']]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[{
+	"orderId": vars.orderId
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Transform Message" doc:id="6b5e2484-402d-4975-8058-4aa4732684ef" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload[0]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End" doc:id="927229ec-ef50-4908-ae88-2580bd8724a5" message="Ended fetch order flow"/>
+	</flow>
+</mule>
